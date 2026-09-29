@@ -1,24 +1,22 @@
-body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; }
-.container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-h2, h3 { color: #333; }
-.form-group { margin-bottom: 15px; }
-.form-group.row { display: flex; gap: 12px; }
-.form-group.row > div { flex: 1; }
-label { display: block; margin-bottom: 5px; font-weight: bold; }
-select, input[type="text"], input[type="date"] { width: 100%; padding: 8px; box-sizing: border-box; }
-button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px; margin-top: 5px; }
-button:hover { background-color: #45a049; }
-.admin-btn { background-color: #2196F3; }
-.admin-btn:hover { background-color: #0b7dda; }
-.section { margin-top: 20px; padding: 15px; border-radius: 5px; background: #eef2f3; display: none; }
+/* Fallback เมื่อ Tailwind CDN โหลดไม่ได้ + สไตล์ส่วนที่ Tailwind ทำไม่ได้ */
+body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #141414; margin: 0; }
+.section { display: none; }
 .active { display: block; }
-.order-card { background: white; padding: 10px; margin-bottom: 10px; border-radius: 4px; border-left: 4px solid #ff9800; }
+
+/* การ์ดคิวฝั่ง Admin (render จาก main.ts) */
+.order-card { background: #27272a; color: #f4f4f5; padding: 12px; margin-bottom: 10px; border-radius: 10px; border-left: 4px solid #C9A227; }
+.order-card button { border: none; border-radius: 9999px; padding: 6px 14px; margin: 4px 4px 0 0; cursor: pointer; color: #fff; background: #3f3f46; }
+.order-card button:hover { filter: brightness(1.15); }
+
+/* badge สถานะ */
 .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; color: #fff; margin-left: 6px; }
 .badge-pending { background: #ff9800; }
 .badge-cutting { background: #2196F3; }
 .badge-done { background: #4CAF50; }
 .badge-cancel { background: #f44336; }
-#slotGridWrap { overflow-x: auto; border: 1px solid #dfe5e7; border-radius: 6px; background: #fff; margin-bottom: 15px; }
+
+/* ตารางคิวว่าง */
+#slotGridWrap { overflow-x: auto; border-radius: 12px; background: #fff; margin-bottom: 15px; }
 #slotGrid { display: grid; min-width: 1100px; }
 .slot-row { display: contents; }
 .slot-cell { border-bottom: 1px solid #eef1f2; border-right: 1px solid #eef1f2; padding: 6px; min-height: 44px; font-size: 12px; display: flex; align-items: center; justify-content: center; text-align: center; }

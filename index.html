@@ -3,79 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบจองคิวร้านตัดผม</title>
+    <title>💈 ระบบจองคิวร้านตัดผม | Barber Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { gold: '#C9A227', charcoal: '#141414', card: '#1d1d1f' },
+                    fontFamily: { sans: ['Segoe UI', 'Tahoma', 'sans-serif'] }
+                }
+            }
+        };
+    </script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-<div class="container">
-    <h2>💈 ระบบจองคิวร้านตัดผม</h2>
+<body class="min-h-screen bg-gradient-to-b from-black via-zinc-900 to-black text-zinc-100">
+<div class="mx-auto max-w-6xl px-4 py-8">
 
-    <div style="margin-bottom: 20px;">
-        <button id="showCustomerTab">👤 โหมดลูกค้า (จองคิว)</button>
-        <button id="showAdminTab" class="admin-btn">🛠️ โหมด Admin (จัดการคิว)</button>
-    </div>
+    <!-- Header -->
+    <header class="mb-6 rounded-2xl border border-gold/40 bg-card/90 p-6 shadow-2xl">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-wide text-gold">💈 BARBER BOOKING</h1>
+                <p class="mt-1 text-sm text-zinc-400">ระบบจองคิวร้านตัดผม • ตัด 120฿ / โกนหนวด 80฿ / สระ+ตัด 200฿</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="showCustomerTab" class="rounded-full bg-gold px-5 py-2.5 font-bold text-black shadow hover:brightness-110">👤 จองคิว</button>
+                <button id="showAdminTab" class="rounded-full border border-gold/60 bg-zinc-800 px-5 py-2.5 font-bold text-gold hover:bg-zinc-700">🛠️ Admin</button>
+            </div>
+        </div>
+    </header>
 
     <!-- ฝั่งลูกค้า -->
-    <div id="customerSection" class="section active">
-        <h3>📅 ตารางคิวว่างช่างแต่ละคน</h3>
-        <p id="slotGridDate" style="color:#555"></p>
-        <div id="slotGridWrap">
+    <div id="customerSection" class="section active rounded-2xl border border-zinc-800 bg-card p-6 shadow-xl">
+        <h3 class="mb-1 text-xl font-bold text-gold">📅 ตารางคิวว่างช่างแต่ละคน</h3>
+        <p id="slotGridDate" class="mb-3 text-sm text-zinc-400"></p>
+        <div id="slotGridWrap" class="rounded-xl border border-zinc-700 bg-white text-zinc-900">
             <div id="slotGrid"></div>
         </div>
-        <p style="font-size:13px;color:#555">🟩 ว่าง (กดเพื่อเติมฟอร์ม) &nbsp; 🩷 ไม่ว่าง &nbsp; * ตารางตามวันที่ที่เลือกด้านล่าง</p>
+        <p class="mb-6 text-[13px] text-zinc-400">🟩 ว่าง (กดเพื่อเติมฟอร์ม) &nbsp; 🩷 ไม่ว่าง &nbsp; * ตารางตามวันที่ที่เลือกด้านล่าง</p>
 
-        <h3>จองคิวตัดผม</h3>
-        <div class="form-group">
-            <label for="customerName">ชื่อลูกค้า:</label>
-            <input type="text" id="customerName" placeholder="เช่น น้องดรีม" value="น้องดรีม">
-        </div>
-        <div class="form-group">
-            <label for="customerPhone">เบอร์โทร (9-10 หลัก):</label>
-            <input type="text" id="customerPhone" placeholder="เช่น 0812345678" value="0812345678">
-        </div>
-        <div class="form-group">
-            <label for="serviceSelect">เลือกบริการ:</label>
-            <select id="serviceSelect"></select>
-        </div>
-        <div class="form-group">
-            <label for="barberSelect">เลือกช่าง:</label>
-            <select id="barberSelect"></select>
-        </div>
-        <div class="form-group row">
+        <h3 class="mb-4 border-t border-zinc-800 pt-4 text-xl font-bold text-gold">✂️ ฟอร์มจองคิว</h3>
+        <div class="grid gap-4 md:grid-cols-2">
             <div>
-                <label for="dateInput">วันที่:</label>
-                <input type="date" id="dateInput">
+                <label for="customerName" class="mb-1 block text-sm font-bold text-zinc-300">ชื่อลูกค้า</label>
+                <input type="text" id="customerName" placeholder="เช่น น้องดรีม" value="น้องดรีม"
+                    class="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-zinc-100 placeholder-zinc-500 focus:border-gold focus:outline-none">
             </div>
             <div>
-                <label for="timeSelect">เวลา:</label>
-                <select id="timeSelect"></select>
+                <label for="customerPhone" class="mb-1 block text-sm font-bold text-zinc-300">เบอร์โทร (9-10 หลัก)</label>
+                <input type="text" id="customerPhone" placeholder="เช่น 0812345678" value="0812345678"
+                    class="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-zinc-100 placeholder-zinc-500 focus:border-gold focus:outline-none">
+            </div>
+            <div>
+                <label for="serviceSelect" class="mb-1 block text-sm font-bold text-zinc-300">เลือกบริการ</label>
+                <select id="serviceSelect"
+                    class="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-zinc-100 focus:border-gold focus:outline-none"></select>
+            </div>
+            <div>
+                <label for="barberSelect" class="mb-1 block text-sm font-bold text-zinc-300">เลือกช่าง</label>
+                <select id="barberSelect"
+                    class="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-zinc-100 focus:border-gold focus:outline-none"></select>
+            </div>
+            <div>
+                <label for="dateInput" class="mb-1 block text-sm font-bold text-zinc-300">วันที่</label>
+                <input type="date" id="dateInput"
+                    class="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-zinc-100 focus:border-gold focus:outline-none">
+            </div>
+            <div>
+                <label for="timeSelect" class="mb-1 block text-sm font-bold text-zinc-300">เวลา</label>
+                <select id="timeSelect"
+                    class="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-zinc-100 focus:border-gold focus:outline-none"></select>
             </div>
         </div>
-        <button id="bookBtn">ยืนยันการจอง</button>
+        <button id="bookBtn" class="mt-5 w-full rounded-xl bg-gold py-3 text-lg font-extrabold text-black shadow-lg hover:brightness-110 md:w-auto md:px-10">ยืนยันการจอง ✂️</button>
     </div>
 
     <!-- ฝั่ง Admin -->
-    <div id="adminSection" class="section">
-        <h3>🛠️ จัดการคิว (Admin)</h3>
-        <div id="pinGate">
-            <div class="form-group">
-                <label for="pinInput">รหัส PIN 6 หลัก:</label>
-                <input type="password" id="pinInput" placeholder="เช่น 123456" maxlength="6" inputmode="numeric" autocomplete="off">
-            </div>
-            <button id="unlockBtn" class="admin-btn">ปลดล็อค</button>
-            <p id="pinError" style="color:#f44336"></p>
+    <div id="adminSection" class="section rounded-2xl border border-zinc-800 bg-card p-6 shadow-xl">
+        <h3 class="mb-4 text-xl font-bold text-gold">🛠️ จัดการคิว (Admin)</h3>
+        <div id="pinGate" class="mx-auto max-w-sm rounded-xl border border-zinc-700 bg-zinc-900 p-5 text-center">
+            <label for="pinInput" class="mb-2 block text-sm font-bold text-zinc-300">รหัส PIN 6 หลัก</label>
+            <input type="password" id="pinInput" placeholder="••••••" maxlength="6" inputmode="numeric" autocomplete="off"
+                class="mx-auto mb-3 w-48 rounded-lg border border-zinc-700 bg-black px-3 py-2 text-center text-xl tracking-[0.5em] text-gold placeholder-zinc-600 focus:border-gold focus:outline-none">
+            <br>
+            <button id="unlockBtn" class="rounded-full bg-gold px-8 py-2 font-bold text-black hover:brightness-110">ปลดล็อค 🔓</button>
+            <p id="pinError" class="mt-2 text-sm text-red-400"></p>
         </div>
         <div id="adminContent" style="display:none">
-            <div class="form-group">
-                <label for="searchInput">ค้นหา (ชื่อ / ช่าง / บริการ / วันที่):</label>
-                <input type="text" id="searchInput" placeholder="เช่น ช่างเอ, ตัดผมชาย, 2026-09-24">
+            <label for="searchInput" class="mb-1 block text-sm font-bold text-zinc-300">ค้นหา (ชื่อ / ช่าง / บริการ / วันที่)</label>
+            <input type="text" id="searchInput" placeholder="เช่น ช่างเอ, ตัดผมชาย, 2026-09-24"
+                class="mb-3 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-zinc-100 placeholder-zinc-500 focus:border-gold focus:outline-none">
+            <p id="revenueText" class="mb-3 rounded-lg border border-gold/40 bg-black/40 px-3 py-2 text-sm text-gold"></p>
+            <div id="adminList"></div>
+            <div class="mt-3 flex flex-wrap gap-2">
+                <button id="clearFinishedBtn" class="rounded-full bg-zinc-700 px-4 py-2 text-sm hover:bg-zinc-600">ล้างคิวที่เสร็จ/ยกเลิกแล้ว</button>
+                <button id="lockBtn" class="rounded-full border border-red-400/60 px-4 py-2 text-sm text-red-300 hover:bg-red-500/10">🔒 ล็อคหน้าจอ</button>
             </div>
-            <p id="revenueText"></p>
-            <div id="adminList">ยังไม่มีคิว</div>
-            <button id="clearFinishedBtn" style="background-color:#757575;margin-top:10px">ล้างคิวที่เสร็จ/ยกเลิกแล้ว</button>
-            <button id="lockBtn" style="background-color:#757575;margin-top:10px">ล็อคหน้าจอ</button>
         </div>
     </div>
+
+    <footer class="mt-6 text-center text-xs text-zinc-500">Barber Booking • HTML + Tailwind + TypeScript (OOP) • PIN Admin: 123456</footer>
 </div>
 
 <!-- สำคัญ: โหลด main.js ที่ compile จาก main.ts (ห้ามโหลด .ts ตรงๆ) -->

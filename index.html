@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบจองคิวร้านตัดผม</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h2>💈 ระบบจองคิวร้านตัดผม</h2>
+
+    <div style="margin-bottom: 20px;">
+        <button id="showCustomerTab">👤 โหมดลูกค้า (จองคิว)</button>
+        <button id="showAdminTab" class="admin-btn">🛠️ โหมด Admin (จัดการคิว)</button>
+    </div>
+
+    <!-- ฝั่งลูกค้า -->
+    <div id="customerSection" class="section active">
+        <h3>จองคิวตัดผม</h3>
+        <div class="form-group">
+            <label for="customerName">ชื่อลูกค้า:</label>
+            <input type="text" id="customerName" placeholder="เช่น น้องดรีม" value="น้องดรีม">
+        </div>
+        <div class="form-group">
+            <label for="customerPhone">เบอร์โทร (9-10 หลัก):</label>
+            <input type="text" id="customerPhone" placeholder="เช่น 0812345678" value="0812345678">
+        </div>
+        <div class="form-group">
+            <label for="serviceSelect">เลือกบริการ:</label>
+            <select id="serviceSelect"></select>
+        </div>
+        <div class="form-group">
+            <label for="barberSelect">เลือกช่าง:</label>
+            <select id="barberSelect"></select>
+        </div>
+        <div class="form-group row">
+            <div>
+                <label for="dateInput">วันที่:</label>
+                <input type="date" id="dateInput">
+            </div>
+            <div>
+                <label for="timeSelect">เวลา:</label>
+                <select id="timeSelect"></select>
+            </div>
+        </div>
+        <button id="bookBtn">ยืนยันการจอง</button>
+    </div>
+
+    <!-- ฝั่ง Admin -->
+    <div id="adminSection" class="section">
+        <h3>🛠️ จัดการคิว (Admin)</h3>
+        <div class="form-group">
+            <label for="searchInput">ค้นหา (ชื่อ / ช่าง / บริการ / วันที่):</label>
+            <input type="text" id="searchInput" placeholder="เช่น ช่างเอ, ตัดผมชาย, 2026-09-24">
+        </div>
+        <p id="revenueText"></p>
+        <div id="adminList">ยังไม่มีคิว</div>
+        <button id="clearFinishedBtn" style="background-color:#757575;margin-top:10px">ล้างคิวที่เสร็จ/ยกเลิกแล้ว</button>
+    </div>
+</div>
+
+<!-- สำคัญ: โหลด main.js ที่ compile จาก main.ts (ห้ามโหลด .ts ตรงๆ) -->
+<script type="module" src="main.js"></script>
+</body>
+</html>

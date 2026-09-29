@@ -18,7 +18,7 @@ const barbers: Barber[] = [
     new Barber("B00", "ไม่ระบุช่าง", "ตามคิวว่าง"),
 ];
 
-const timeSlots = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"];
+const timeSlots = ["10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30"];
 
 const shop = new BarberShop();
 
@@ -41,7 +41,7 @@ const revenueText = $("revenueText") as HTMLParagraphElement;
 services.forEach((s, i) => {
     const o = document.createElement("option");
     o.value = String(i);
-    o.textContent = `${s.getName()} (${s.getPrice()}฿ / ${s.getDuration()}นาที)`;
+    o.textContent = `${s.getName()} (${s.getPrice()}฿)`;
     serviceSelect.appendChild(o);
 });
 barbers.forEach((b, i) => {
@@ -50,12 +50,85 @@ barbers.forEach((b, i) => {
     o.textContent = `${b.getName()} - ${b.getSpecialty()}`;
     barberSelect.appendChild(o);
 });
-timeSlots.forEach(t => {
-    const o = document.createElement("option");
-    o.value = t;
-    o.textContent = t;
-    timeSelect.appendChild(o);
+// เติม dropdown เวลาแบบกรองแยกช่าง: เวลาที่ช่างนั้นโดนจองแล้วจะไม่ขึ้นมา
+// แต่ถ้าสลับไปช่างอื่นที่ว่างเวลานั้นก็จะขึ้นปกติ
+function getSelectedBarberName(): string {
+    const b = barbers[Number(barberSelect.value)];
+    return b ? b.getName() : "ไม่ระบุช่าง";
+}
+function refreshAvailableTimes(keepValue: boolean = true): void {
+    const prev = timeSelect.value;
+    const barberName = getSelectedBarberName();
+    const date = dateInput.value;
+    timeSelect.innerHTML = "";
+    const available = timeSlots.filter(t => shop.isSlotAvailable(barberName, date, t));
+    if (available.length === 0) {
+        const o = document.createElement("option");
+        o.value = "";
+        o.textContent = "เต็มทุกเวลา กรุณาเปลี่ยนวัน/ช่าง";
+        timeSelect.appendChild(o);
+        return;
+    }
+    available.forEach(t => {
+        const o = document.createElement("option");
+        o.value = t;
+        o.textContent = t;
+        timeSelect.appendChild(o);
+    });
+    if (keepValue && prev && available.includes(prev)) {
+        timeSelect.value = prev;
+    }
+}
+// ===== ตารางคิวว่าง (แถว=ช่าง, คอลัมน์=เวลา 30 นาที) =====
+const slotGrid = $("slotGrid") as HTMLDivElement;
+const slotGridDate = $("slotGridDate") as HTMLParagraphElement;
+const gridBarbers = barbers.filter(b => b.getName() !== "ไม่ระบุช่าง");
+
+function findBookingAt(barberName: string, date: string, time: string) {
+    return shop.getAll().find(b =>
+        b.getBarber().getName() === barberName &&
+        b.getDate() === date &&
+        b.getTime() === time &&
+        b.getStatus() !== "ยกเลิก"
+    );
+}
+function esc(s: string): string {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function renderSlotGrid(): void {
+    const date = dateInput.value;
+    slotGridDate.textContent = date ? `วันที่ ${date} (เขียว=ว่างกดได้ / ชมพู=ไม่ว่าง)` : "";
+    slotGrid.style.gridTemplateColumns = `150px repeat(${timeSlots.length}, minmax(64px, 1fr))`;
+    let html = `<div class="slot-cell slot-head">ช่าง / เวลา</div>`;
+    timeSlots.forEach(t => { html += `<div class="slot-cell slot-head">${t}</div>`; });
+    gridBarbers.forEach((br, bi) => {
+        html += `<div class="slot-cell slot-barber">${esc(br.getName())}<br><small style="font-weight:normal">${esc(br.getSpecialty())}</small></div>`;
+        timeSlots.forEach(t => {
+            const booked = findBookingAt(br.getName(), date, t);
+            if (booked) {
+                html += `<div class="slot-cell slot-booked">✓ ${esc(booked.getCustomer().getName())}<br><small>${esc(booked.getService().getName())}</small></div>`;
+            } else {
+                html += `<button class="slot-free" data-bi="${bi}" data-time="${t}" title="จอง ${esc(br.getName())} ${t}">ว่าง</button>`;
+            }
+        });
+    });
+    slotGrid.innerHTML = html;
+}
+slotGrid.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest("button.slot-free") as HTMLButtonElement | null;
+    if (!btn) return;
+    const bi = Number(btn.dataset.bi);
+    const t = btn.dataset.time ?? "";
+    const idx = barbers.findIndex(b => b.getName() === gridBarbers[bi].getName());
+    if (idx >= 0) barberSelect.value = String(idx);
+    refreshAvailableTimes(false);
+    if (t && (Array.from(timeSelect.options).some(o => o.value === t))) {
+        timeSelect.value = t;
+    }
+    bookBtn.scrollIntoView({ behavior: "smooth", block: "center" });
 });
+barberSelect.addEventListener("change", () => { refreshAvailableTimes(false); renderSlotGrid(); });
+dateInput.addEventListener("change", () => { refreshAvailableTimes(false); renderSlotGrid(); });
 // วันที่ขั้นต่ำ = วันนี้
 dateInput.min = new Date().toISOString().slice(0, 10);
 dateInput.value = dateInput.min;
@@ -97,16 +170,56 @@ function loadFromStorage(): void {
     } catch { /* ไฟล์เสียก็เริ่มใหม่ */ }
 }
 
-// ===== Tabs =====
+// ===== Tabs + PIN Admin 6 หลัก =====
+const ADMIN_PIN = "123456";
+let adminUnlocked = false;
+const pinGate = $("pinGate") as HTMLDivElement;
+const adminContent = $("adminContent") as HTMLDivElement;
+const pinInput = $("pinInput") as HTMLInputElement;
+const pinError = $("pinError") as HTMLParagraphElement;
+
+function lockAdmin(): void {
+    adminUnlocked = false;
+    pinInput.value = "";
+    pinError.textContent = "";
+    pinGate.style.display = "block";
+    adminContent.style.display = "none";
+}
+function unlockAdmin(): void {
+    if (pinInput.value.trim() === ADMIN_PIN) {
+        adminUnlocked = true;
+        pinError.textContent = "";
+        pinGate.style.display = "none";
+        adminContent.style.display = "block";
+        renderAdmin();
+    } else {
+        pinError.textContent = "PIN ไม่ถูกต้อง กรุณาลองใหม่";
+        pinInput.value = "";
+        pinInput.focus();
+    }
+}
 showCustomerTab.addEventListener("click", () => {
     customerSection.classList.add("active");
     adminSection.classList.remove("active");
+    lockAdmin();
+    refreshAvailableTimes();
+    renderSlotGrid();
 });
 showAdminTab.addEventListener("click", () => {
     adminSection.classList.add("active");
     customerSection.classList.remove("active");
-    renderAdmin();
+    if (adminUnlocked) {
+        renderAdmin();
+    } else {
+        lockAdmin();
+        setTimeout(() => pinInput.focus(), 0);
+    }
 });
+($("unlockBtn") as HTMLButtonElement).addEventListener("click", unlockAdmin);
+pinInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") unlockAdmin();
+});
+($("lockBtn") as HTMLButtonElement).addEventListener("click", lockAdmin);
 
 // ===== จอง =====
 bookBtn.addEventListener("click", () => {
@@ -121,6 +234,7 @@ bookBtn.addEventListener("click", () => {
     const barber = barbers[Number(barberSelect.value)];
     const date = dateInput.value;
     const time = timeSelect.value;
+    if (!time) { alert("เวลานี้เต็มทุกช่อง กรุณาเปลี่ยนวันหรือช่าง"); return; }
 
     if (!shop.isSlotAvailable(barber.getName(), date, time)) {
         alert(`คิวชน! ${barber.getName()} ไม่ว่าง ${date} เวลา ${time} กรุณาเปลี่ยนเวลาหรือช่าง`);
@@ -131,6 +245,8 @@ bookBtn.addEventListener("click", () => {
     const booking = new Booking(customer, service, barber, date, time);
     shop.addBooking(booking);
     saveToStorage();
+    refreshAvailableTimes(false);
+    renderSlotGrid();
     alert(`จองสำเร็จ! ${booking.getDetails(true)}\nราคารวม ${booking.calculateTotalPrice()} บาท`);
 });
 
@@ -185,3 +301,5 @@ searchInput.addEventListener("input", renderAdmin);
 });
 
 loadFromStorage();
+refreshAvailableTimes(false);
+renderSlotGrid();

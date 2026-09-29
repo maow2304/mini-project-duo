@@ -1,5 +1,5 @@
 body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; }
-.container { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 h2, h3 { color: #333; }
 .form-group { margin-bottom: 15px; }
 .form-group.row { display: flex; gap: 12px; }
@@ -18,3 +18,12 @@ button:hover { background-color: #45a049; }
 .badge-cutting { background: #2196F3; }
 .badge-done { background: #4CAF50; }
 .badge-cancel { background: #f44336; }
+#slotGridWrap { overflow-x: auto; border: 1px solid #dfe5e7; border-radius: 6px; background: #fff; margin-bottom: 15px; }
+#slotGrid { display: grid; min-width: 1100px; }
+.slot-row { display: contents; }
+.slot-cell { border-bottom: 1px solid #eef1f2; border-right: 1px solid #eef1f2; padding: 6px; min-height: 44px; font-size: 12px; display: flex; align-items: center; justify-content: center; text-align: center; }
+.slot-head { background: #f7f9fa; font-weight: bold; color: #555; position: sticky; top: 0; }
+.slot-barber { background: #f7f9fa; font-weight: bold; justify-content: flex-start; position: sticky; left: 0; }
+.slot-free { background: #e8f5e9; color: #2e7d32; border: none; border-bottom: 1px solid #eef1f2; border-right: 1px solid #eef1f2; padding: 6px; min-height: 44px; font-size: 12px; cursor: pointer; }
+.slot-free:hover { background: #c8e6c9; }
+.slot-booked { background: #f8bbd0; color: #880e4f; font-weight: bold; }

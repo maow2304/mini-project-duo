@@ -40,7 +40,7 @@ export class Booking {
     public getDetails(): string;
     public getDetails(short: boolean): string;
     public getDetails(short: boolean = false): string {
-        const base = `[คิว #${this.bookingId}] ${this.customer.getName()} (${this.customer.getPhone()}) | ${this.service.getName()} ${this.calculateTotalPrice()}฿/${this.service.getDuration()}นาที | ${this.barber.getName()} | ${this.date} ${this.time} | ${this.status}`;
+        const base = `[คิว #${this.bookingId}] ${this.customer.getName()} (${this.customer.getPhone()}) | ${this.service.getName()} ${this.calculateTotalPrice()}฿ | ${this.barber.getName()} | ${this.date} ${this.time} | ${this.status}`;
         if (short) {
             return `#${this.bookingId} ${this.customer.getName()} - ${this.service.getName()} (${this.status})`;
         }

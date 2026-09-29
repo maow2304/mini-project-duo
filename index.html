@@ -17,6 +17,13 @@
 
     <!-- ฝั่งลูกค้า -->
     <div id="customerSection" class="section active">
+        <h3>📅 ตารางคิวว่างช่างแต่ละคน</h3>
+        <p id="slotGridDate" style="color:#555"></p>
+        <div id="slotGridWrap">
+            <div id="slotGrid"></div>
+        </div>
+        <p style="font-size:13px;color:#555">🟩 ว่าง (กดเพื่อเติมฟอร์ม) &nbsp; 🩷 ไม่ว่าง &nbsp; * ตารางตามวันที่ที่เลือกด้านล่าง</p>
+
         <h3>จองคิวตัดผม</h3>
         <div class="form-group">
             <label for="customerName">ชื่อลูกค้า:</label>
@@ -50,13 +57,24 @@
     <!-- ฝั่ง Admin -->
     <div id="adminSection" class="section">
         <h3>🛠️ จัดการคิว (Admin)</h3>
-        <div class="form-group">
-            <label for="searchInput">ค้นหา (ชื่อ / ช่าง / บริการ / วันที่):</label>
-            <input type="text" id="searchInput" placeholder="เช่น ช่างเอ, ตัดผมชาย, 2026-09-24">
+        <div id="pinGate">
+            <div class="form-group">
+                <label for="pinInput">รหัส PIN 6 หลัก:</label>
+                <input type="password" id="pinInput" placeholder="เช่น 123456" maxlength="6" inputmode="numeric" autocomplete="off">
+            </div>
+            <button id="unlockBtn" class="admin-btn">ปลดล็อค</button>
+            <p id="pinError" style="color:#f44336"></p>
         </div>
-        <p id="revenueText"></p>
-        <div id="adminList">ยังไม่มีคิว</div>
-        <button id="clearFinishedBtn" style="background-color:#757575;margin-top:10px">ล้างคิวที่เสร็จ/ยกเลิกแล้ว</button>
+        <div id="adminContent" style="display:none">
+            <div class="form-group">
+                <label for="searchInput">ค้นหา (ชื่อ / ช่าง / บริการ / วันที่):</label>
+                <input type="text" id="searchInput" placeholder="เช่น ช่างเอ, ตัดผมชาย, 2026-09-24">
+            </div>
+            <p id="revenueText"></p>
+            <div id="adminList">ยังไม่มีคิว</div>
+            <button id="clearFinishedBtn" style="background-color:#757575;margin-top:10px">ล้างคิวที่เสร็จ/ยกเลิกแล้ว</button>
+            <button id="lockBtn" style="background-color:#757575;margin-top:10px">ล็อคหน้าจอ</button>
+        </div>
     </div>
 </div>
 

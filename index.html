@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💈 ระบบจองคิวร้านตัดผม | Barber Booking</title>
+    <script>
+        // ตั้งธีมตั้งต้นก่อน render เพื่อกันหน้ากะพริบ + จำค่าที่ผู้ใช้เลือกไว้
+        try {
+            const saved = localStorage.getItem('barber-theme');
+            const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+            const theme = saved || (prefersLight ? 'light' : 'dark');
+            document.documentElement.classList.remove('dark', 'light');
+            document.documentElement.classList.add(theme);
+        } catch (e) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: { gold: '#C9A227', charcoal: '#141414', card: '#1d1d1f' },
@@ -17,7 +30,7 @@
     </script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="min-h-screen bg-gradient-to-b from-black via-zinc-900 to-black text-zinc-100">
+<body class="min-h-screen bg-gradient-to-b from-black via-zinc-900 to-black text-zinc-100 transition-colors duration-300">
 <div class="mx-auto max-w-6xl px-4 py-8">
 
     <!-- Header -->
@@ -28,6 +41,7 @@
                 <p class="mt-1 text-sm text-zinc-400">ระบบจองคิวร้านตัดผม • ตัด 120฿ / โกนหนวด 80฿ / สระ+ตัด 200฿</p>
             </div>
             <div class="flex gap-2">
+                <button id="themeToggle" class="rounded-full border border-gold/60 bg-zinc-800 px-5 py-2.5 font-bold text-gold hover:bg-zinc-700" title="สลับโหมดมืด / โหมดสว่าง">🌙 โหมดมืด</button>
                 <button id="showCustomerTab" class="rounded-full bg-gold px-5 py-2.5 font-bold text-black shadow hover:brightness-110">👤 จองคิว</button>
                 <button id="showAdminTab" class="rounded-full border border-gold/60 bg-zinc-800 px-5 py-2.5 font-bold text-gold hover:bg-zinc-700">🛠️ Admin</button>
             </div>

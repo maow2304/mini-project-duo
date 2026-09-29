@@ -25,3 +25,100 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #141414; m
 .slot-free { background: #e8f5e9; color: #2e7d32; border: none; border-bottom: 1px solid #eef1f2; border-right: 1px solid #eef1f2; padding: 6px; min-height: 44px; font-size: 12px; cursor: pointer; }
 .slot-free:hover { background: #c8e6c9; }
 .slot-booked { background: #f8bbd0; color: #880e4f; font-weight: bold; }
+
+/* ===== โหมดสว่าง (Light mode) — เปิดเมื่อ <html> หรือ <body> มี class="light" ===== */
+html.light body,
+body.light {
+    background: linear-gradient(to bottom, #fffbeb, #f5f5f4, #fffbeb) !important;
+    background-color: #fafaf9 !important;
+    color: #18181b !important;
+}
+
+/* การ์ดหลัก */
+html.light header,
+html.light #customerSection,
+html.light #adminSection,
+body.light header,
+body.light #customerSection,
+body.light #adminSection {
+    background: #ffffff !important;
+    border-color: #e7c65a !important;
+    color: #18181b !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ตัวหนังสือที่เดิมเป็นโทนสว่าง ต้องเข้มขึ้นในโหมดสว่าง */
+html.light .text-zinc-100, body.light .text-zinc-100,
+html.light .text-zinc-300, body.light .text-zinc-300 {
+    color: #18181b !important;
+}
+html.light .text-zinc-400, body.light .text-zinc-400,
+html.light .text-zinc-500, body.light .text-zinc-500 {
+    color: #52525b !important;
+}
+html.light .text-gold, body.light .text-gold {
+    color: #926f00 !important;
+}
+
+/* ฟอร์ม input / select */
+html.light #customerSection input,
+html.light #customerSection select,
+html.light #adminSection input,
+html.light #adminSection select,
+body.light #customerSection input,
+body.light #customerSection select,
+body.light #adminSection input,
+body.light #adminSection select {
+    background: #ffffff !important;
+    color: #18181b !important;
+    border-color: #d4d4d8 !important;
+}
+html.light input::placeholder, body.light input::placeholder {
+    color: #a1a1aa !important;
+}
+html.light #pinInput, body.light #pinInput {
+    background: #ffffff !important;
+    color: #926f00 !important;
+}
+html.light #pinGate, body.light #pinGate {
+    background: #fafaf9 !important;
+    border-color: #d4d4d8 !important;
+}
+html.light #revenueText, body.light #revenueText {
+    background: #fefce8 !important;
+    border-color: #e7c65a !important;
+    color: #713f12 !important;
+}
+
+/* ปุ่มรอง (Admin / toggle theme) ที่เดิมพื้นเข้ม */
+html.light #showAdminTab,
+html.light #themeToggle,
+html.light #clearFinishedBtn,
+body.light #showAdminTab,
+body.light #themeToggle,
+body.light #clearFinishedBtn {
+    background: #f4f4f5 !important;
+    color: #713f12 !important;
+    border-color: #e7c65a !important;
+}
+html.light #showAdminTab:hover,
+html.light #themeToggle:hover,
+html.light #clearFinishedBtn:hover,
+body.light #showAdminTab:hover,
+body.light #themeToggle:hover,
+body.light #clearFinishedBtn:hover {
+    background: #e7e5e4 !important;
+}
+
+/* การ์ดคิวฝั่ง Admin */
+html.light .order-card, body.light .order-card {
+    background: #fafaf9 !important;
+    color: #18181b !important;
+    border: 1px solid #e7e5e4 !important;
+    border-left: 4px solid #C9A227 !important;
+}
+
+/* ตารางคิวว่างคงพื้นขาวอยู่แล้ว แค่ปรับเส้นให้ชัดขึ้น */
+html.light #slotGridWrap, body.light #slotGridWrap {
+    border: 1px solid #e7e5e4 !important;
+}

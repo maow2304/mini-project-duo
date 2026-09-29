@@ -36,6 +36,42 @@ const bookBtn = $("bookBtn") as HTMLButtonElement;
 const adminList = $("adminList") as HTMLDivElement;
 const searchInput = $("searchInput") as HTMLInputElement;
 const revenueText = $("revenueText") as HTMLParagraphElement;
+const themeToggle = $("themeToggle") as HTMLButtonElement;
+
+// ===== โหมดมืด / โหมดสว่าง =====
+type Theme = "dark" | "light";
+const THEME_KEY = "barber-theme";
+
+function applyTheme(theme: Theme): void {
+    const isLight = theme === "light";
+    document.documentElement.classList.toggle("light", isLight);
+    document.documentElement.classList.toggle("dark", !isLight);
+    document.body.classList.toggle("light", isLight);
+    themeToggle.textContent = isLight ? "☀️ โหมดสว่าง" : "🌙 โหมดมืด";
+    themeToggle.setAttribute("aria-pressed", String(isLight));
+    try {
+        localStorage.setItem(THEME_KEY, theme);
+    } catch { /* private mode ก็ข้ามไป */ }
+}
+
+function initTheme(): void {
+    let saved: string | null = null;
+    try {
+        saved = localStorage.getItem(THEME_KEY);
+    } catch { /* อ่านไม่ได้ก็ใช้ค่า default */ }
+    if (saved === "light" || saved === "dark") {
+        applyTheme(saved);
+    } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+        applyTheme("light");
+    } else {
+        applyTheme("dark");
+    }
+}
+
+themeToggle.addEventListener("click", () => {
+    const isLightNow = document.documentElement.classList.contains("light");
+    applyTheme(isLightNow ? "dark" : "light");
+});
 
 // เติม dropdown
 services.forEach((s, i) => {
@@ -301,5 +337,6 @@ searchInput.addEventListener("input", renderAdmin);
 });
 
 loadFromStorage();
+initTheme();
 refreshAvailableTimes(false);
 renderSlotGrid();
